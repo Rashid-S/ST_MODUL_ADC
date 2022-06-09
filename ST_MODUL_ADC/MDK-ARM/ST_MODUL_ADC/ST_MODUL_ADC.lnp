@@ -1,0 +1,17 @@
+--cpu=Cortex-M4.fp --branchpatch=sdcomp-29491-629360
+"st_modul_adc\startup_stm32l476xx.o"
+"st_modul_adc\main.o"
+"st_modul_adc\stm32l4xx_it.o"
+"st_modul_adc\mbcrc.o"
+"st_modul_adc\stm32l4xx_ll_utils.o"
+"st_modul_adc\stm32l4xx_ll_exti.o"
+"st_modul_adc\stm32l4xx_ll_gpio.o"
+"st_modul_adc\stm32l4xx_ll_pwr.o"
+"st_modul_adc\stm32l4xx_ll_usart.o"
+"st_modul_adc\stm32l4xx_ll_rcc.o"
+"st_modul_adc\stm32l4xx_ll_dma.o"
+"st_modul_adc\system_stm32l4xx.o"
+--strict --scatter "ST_MODUL_ADC\ST_MODUL_ADC.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "ST_MODUL_ADC.map" -o ST_MODUL_ADC\ST_MODUL_ADC.axf
