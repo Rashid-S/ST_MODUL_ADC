@@ -133,7 +133,7 @@ void checkuart(void)
 									
 									else
 									{
-										SendData_UART("poshel nahui", sizeof("poshel nahui")); //отправить ошибку
+										SendData_UART("poshel v banju", sizeof("poshel v banju")); //отправить ошибку
 										
 									}
 									break;
