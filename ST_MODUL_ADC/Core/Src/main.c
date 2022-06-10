@@ -57,9 +57,22 @@ typedef struct
 	u8 addrdev;
 	u8 numfunc;
 	
-}_stranswer;
+}_answermultreg;
 
-_stranswer ABC;
+_answermultreg ABC;
+
+
+typedef struct
+{
+	u8 addrdev;
+	u8 numfunc;
+	
+}_answerinputreg;
+
+_answerinputreg ABC;
+
+
+
 
 
 
@@ -106,8 +119,6 @@ void checkuart(void)
 					
           //if (UART2_RX_Pos >= _PACKET_ALL_LEN_2)  // Пакет получен полностью
           {  // Проверяем контрольную сумму. check crc. This is sum value data from pos_data to (tail - 1)
-            
-						
 						crc = 0;
 						crc = usMBCRC16((u8*) &UART2_RX_BUF, UART2_RX_Pos-2);
             u8 status = STATUS_CMD_GOOD;
@@ -116,41 +127,41 @@ void checkuart(void)
             //else 
              // Найден пакет с данными. Готовим пакет ответа
                                                                    // По умолчанию принимаем значение STATUS_CMD_GOOD
-              Packet_cmd_simple_answer.cmd = _PACKET_CMD_2;                                    // Отвечаем на пришедшую команду _PACKET_CMD_2
-              Packet_cmd_simple_answer.id =  _PACKET_ID_2;                                     // id event
-              Packet_cmd_simple_answer.crc = _PACKET_CMD_2 + _PACKET_ID_2;                     // Заранее считаем crc (пока что без учета других данных)
+            Packet_cmd_simple_answer.cmd = _PACKET_CMD_2;                                    // Отвечаем на пришедшую команду _PACKET_CMD_2
+            Packet_cmd_simple_answer.id =  _PACKET_ID_2;                                     // id event
+            Packet_cmd_simple_answer.crc = _PACKET_CMD_2 + _PACKET_ID_2;                     // Заранее считаем crc (пока что без учета других данных)
               //if (_PACKET_ID_2 > EVENT_MAX) { status = STATUS_ERROR_ID; goto label_answer_2; } // Неверный ID
               //if ((Action_Base.event_mask & (1 << _PACKET_ID_2)) != 0) { status = STATUS_ERROR_SLOT_ID_BUSY; goto label_answer_2; } // Этот ID уже занят
-              switch(_PACKET_CMD_2) // Пришедшая команда
-              {
-                /* Включение/отключение модуля ППУ (MODE_ENABLE / MODE_DISABLE) */
-                case CMD_10:
-								{
-									if (UART2_RX_Pos == LEN_CMD_10_WRITE_REQ)
+						switch(_PACKET_CMD_2) // Пришедшая команда
+							{
+								/* Включение/отключение модуля ППУ (MODE_ENABLE / MODE_DISABLE) */
+								case CMD_10:
 									{
-										SendData_UART((u8*) &ABC, sizeof(ABC));
+										if (UART2_RX_Pos == LEN_CMD_10_WRITE_REQ)
+											{
+												SendData_UART((u8*) &ABC, sizeof(ABC));
+											}
+										else
+											{
+												SendData_UART("poshel v banju", sizeof("poshel v banju"));   //отправить ошибку										
+											}
+										break;
 									}
-									
-									else
-									{
-										SendData_UART("poshel v banju", sizeof("poshel v banju")); //отправить ошибку
-										
-									}
-									break;
-								}
 								case CMD_03:
-								{
-									if (UART2_RX_Pos == MIN_LEN_CMD_03_READ_REQ)
-									{}
-									else
 									{
-										// отправить ошибку
+										if (UART2_RX_Pos == MIN_LEN_CMD_03_READ_REQ)
+											{
+												
+											}
+										else
+											{
+												// отправить ошибку
+											}
+										break;
 									}
-									break;
-								}
 														
-							default: { status = STATUS_CMD_UNKNOWN; }
-						}
+								default: { status = STATUS_CMD_UNKNOWN; }
+							}
 						}
 					}
               //if (_PACKET_CMD_2 < MCU_START) { goto label_wo_answer_2; } // Если не надо отправлять ответ

@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp --branchpatch=sdcomp-29491-629360
+--cpu=Cortex-M4.fp.sp --branchpatch=sdcomp-29491-629360
 "st_modul_adc\startup_stm32l476xx.o"
 "st_modul_adc\main.o"
 "st_modul_adc\stm32l4xx_it.o"
